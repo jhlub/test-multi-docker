@@ -1,0 +1,20 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t maastah/test-react-test-v1 ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true maastah/test-react-test-v1 npm test
+
+after_success:
+  - docker build -t maastah/test-multi-client ./client
+  - docker build -t maastah/test-multi-nginx ./nginx
+  - docker build -t maastah/test-multi-worker ./worker
+  - docker build -t maastah/test-multi-server ./server
+  # - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # - docker push maastah/test-multi-client
+  # - docker push maastah/test-multi-nginx
+  # - docker push maastah/test-multi-worker
+  # - docker push maastah/test-multi-server
