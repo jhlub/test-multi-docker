@@ -3,7 +3,7 @@ services:
   - docker
 
 before_install:
-  - docker build -t maastah/test-react-test-v1 ./client/Dockerfile.dev ./client
+  - docker build -t maastah/test-react-test-v1 -f ./client/Dockerfile.dev ./client
 
 script:
   - docker run -e CI=true maastah/test-react-test-v1 npm test
